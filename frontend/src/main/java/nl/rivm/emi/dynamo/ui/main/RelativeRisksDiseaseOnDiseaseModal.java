@@ -12,7 +12,6 @@ import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksMatrixAgeGroup;
-import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixAgeGroup;
 import nl.rivm.emi.dynamo.ui.util.RelativeRisksUtil;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 

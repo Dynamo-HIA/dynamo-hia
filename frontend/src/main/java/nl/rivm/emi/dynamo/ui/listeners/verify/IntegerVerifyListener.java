@@ -18,6 +18,7 @@ public class IntegerVerifyListener extends AbstractNonSAPVerifyListener{
 	}
 
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("unchecked")
 	NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>)XMLTagEntitySingleton.getInstance().get("number");
 
 	public void verifyText(VerifyEvent arg0) {

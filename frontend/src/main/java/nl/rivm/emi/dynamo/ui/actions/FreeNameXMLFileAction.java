@@ -53,6 +53,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 	@Override
 	public void run() {
 		if (node instanceof DirectoryNode) {
+			@SuppressWarnings("unused")
 			String newFilePath = getNewFilePath();
 		} else {
 			MessageBox messageBox = new MessageBox(shell);

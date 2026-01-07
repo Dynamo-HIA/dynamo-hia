@@ -10,9 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.Plot;
-import org.jfree.data.category.CategoryDataset;
 //ND: not experimental anymore
 import org.jfree.chart.swt.ChartComposite;
 
@@ -43,6 +40,7 @@ public final class PyramidChartFactory implements PlotDrawer {
 	@Override
 	public void drawChartAction(ButtonStates info, Composite composite) {
 		
+		@SuppressWarnings("unused")
 		Log log = LogFactory
 		.getLog("nl.rivm.emi.dynamo.PyramidChartFactory");
 

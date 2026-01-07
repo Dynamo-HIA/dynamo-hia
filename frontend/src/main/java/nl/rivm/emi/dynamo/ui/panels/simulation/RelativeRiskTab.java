@@ -42,6 +42,7 @@ public class RelativeRiskTab extends NestedTab {
 	// private Log log = LogFactory.getLog("RelativeRiskTab");
 
 	private RelativeRiskSelectionGroup relativeRiskSelectionGroup;
+	@SuppressWarnings("unused")
 	private RelativeRiskResultGroup relativeRiskResultGroup;
 	RelativeRiskTabPlatformDataManager platformManager;
 	private RelativeRiskTabDataManager relRiskTabDataManager;

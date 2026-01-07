@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RelRisksForDeathContinuousGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelRisksForDeathContinuousGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {

@@ -103,6 +103,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 	public void deleteNestedTabsButNotTheData() throws ConfigurationException {
 		tabFolder.removeSelectionListener(listener);
 		TabItem[] tabItems = tabFolder.getItems();
+		@SuppressWarnings("unused")
 		Control[] controlList = tabFolder.getTabList();
 		log.debug("Before for: tabItems.length = " + tabItems.length);
 		for (int count = 0; count < tabItems.length; count++) {
@@ -412,6 +413,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		return success;
 	}
 
+	@SuppressWarnings("unused")
 	private void handleErrorMessage(Exception e) {
 		e.printStackTrace();
 		MessageBox box = new MessageBox(this.getUpperTabFolder().getShell(),

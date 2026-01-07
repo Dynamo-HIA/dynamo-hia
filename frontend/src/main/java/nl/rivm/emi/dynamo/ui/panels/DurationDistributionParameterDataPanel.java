@@ -84,7 +84,9 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		bindTuple(gridData, tuple, durationValue);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple, int durationValue) {
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
 		AtomicTypeBase<?> modelType = (AtomicTypeBase<?>) tuple.getType();
 		final Text text = new Text(this, SWT.NONE);
@@ -93,7 +95,7 @@ public class DurationDistributionParameterDataPanel extends Composite {
 				.isHasDefaultObject()) {
 			Object defaultValue = modelType.getDefaultValue();
 			if (defaultValue instanceof Float) {
-				Float oneHundred = new Float(100F);
+				Float oneHundred = Float.valueOf(100F);
 				modelObservableValue.doSetValue(oneHundred);
 			} else {
 				log
@@ -106,6 +108,7 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
@@ -142,6 +145,7 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		ageHeader.setLayoutData(gridData);
 		int columnsToFill = ((GridLayout) getLayout()).numColumns - 1;
 		for (int columnsCount = 1; columnsCount <= columnsToFill; columnsCount++) {
+			@SuppressWarnings("unused")
 			final Label fillLabel = new Label(this, SWT.NONE);
 		}
 	}

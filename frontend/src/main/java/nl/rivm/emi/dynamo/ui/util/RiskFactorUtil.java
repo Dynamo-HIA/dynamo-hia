@@ -58,6 +58,7 @@ public class RiskFactorUtil {
 			} else {
 				if (StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel()
 						.equals(((BaseNode) selectedNode).deriveNodeLabel())) {
+					@SuppressWarnings("unused")
 					Object[] children = ((ParentNode) selectedNode)
 							.getChildren();
 					numberOfCategories = findNumberOfCategoriesViaSimulationConfiguration(selectedNode);
@@ -131,6 +132,7 @@ public class RiskFactorUtil {
 		return riskFactorName;
 	}
 
+	@SuppressWarnings("unused")
 	private static String extractRiskfactorName(File configurationFile) {
 		String riskfactorName = null;
 		XMLConfigurationToo configurationFromFile;
@@ -147,6 +149,7 @@ public class RiskFactorUtil {
 			configurationFromFile.setValidating(true);
 			configurationFromFile.load();
 
+			@SuppressWarnings("unchecked")
 			List<HierarchicalConfiguration> subConfigurations = configurationFromFile
 					.configurationsAt(XMLTagEntityEnum.RISKFACTOR
 							.getElementName());
@@ -233,6 +236,7 @@ public class RiskFactorUtil {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static String getTagValue(String sTag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
 				.getChildNodes();
@@ -269,7 +273,7 @@ public class RiskFactorUtil {
 			numberOfCategories = ConfigurationFileUtil
 					.extractNumberOfClasses(configurationFile);
 		} else {
-			numberOfCategories = new Integer(0);
+			numberOfCategories = Integer.valueOf(0);
 		}
 		return numberOfCategories;
 	}
@@ -337,7 +341,7 @@ public class RiskFactorUtil {
 			durationCategoryIndex = ConfigurationFileUtil
 					.extractDurationCategoryIndex(configurationFile);
 		} else {
-			durationCategoryIndex = new Integer(0);
+			durationCategoryIndex = Integer.valueOf(0);
 		}
 		return durationCategoryIndex;
 	}

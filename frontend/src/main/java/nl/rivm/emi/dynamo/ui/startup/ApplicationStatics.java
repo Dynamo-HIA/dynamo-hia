@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.ui.startup;
 
-import java.io.File;
-
-import javax.swing.JFileChooser;
 
 public class ApplicationStatics {
 	public static final String APPBASENAME = "DYNAMO-HIA";

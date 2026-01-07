@@ -22,10 +22,17 @@ import org.apache.commons.logging.LogFactory;
  *
  * @param <String>
  */
+@SuppressWarnings("hiding")
 public class ChosenFromList <String> extends LinkedHashSet<String> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
+	@SuppressWarnings("rawtypes")
 	private static ChosenFromList chosenFromNames = null;
 
 	private ChosenFromList() {
@@ -40,6 +47,7 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @return
 	 * @throws ConfigurationException
 	 */
+	@SuppressWarnings("rawtypes")
 	static synchronized public ChosenFromList getInstance(
 			) throws ConfigurationException {
 		if (chosenFromNames == null) {
@@ -61,11 +69,13 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @param chosenFromName 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Set<String> getChoosableToNames(String currentToName, 
 			Set<String> completeToList
 			) {
 		log.debug("currentToName: " + currentToName);
 		this.remove(currentToName);
+		@SuppressWarnings("rawtypes")
 		Set toNames = new LinkedHashSet<String>();
 		toNames.addAll(completeToList);		
 		log.debug("toNames: " + toNames);
@@ -134,6 +144,7 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @param dynamoSimulationObject: the DynamoSimulationObject
 	
 	 */
+	@SuppressWarnings("unchecked")
 	public void updateChosenFromList(DynamoSimulationObject dynamoSimulationObject) {
 			
 		Map<Integer,TabRelativeRiskConfigurationData> relRiskConfiguration =

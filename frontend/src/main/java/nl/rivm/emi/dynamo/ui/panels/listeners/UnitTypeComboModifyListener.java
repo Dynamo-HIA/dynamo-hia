@@ -13,6 +13,7 @@ public class UnitTypeComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue unitTypeWritableValue;
 
 	/**
@@ -20,7 +21,7 @@ public class UnitTypeComboModifyListener implements ModifyListener {
 	 */
 	HashSet<Label> registeredLabels = new HashSet<Label>();
 
-	public UnitTypeComboModifyListener(WritableValue unitTypeWritableValue) {
+	public UnitTypeComboModifyListener(@SuppressWarnings("rawtypes") WritableValue unitTypeWritableValue) {
 		super();
 		this.unitTypeWritableValue = unitTypeWritableValue;
 	}
@@ -34,6 +35,7 @@ public class UnitTypeComboModifyListener implements ModifyListener {
 		registeredLabels.remove(label);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();

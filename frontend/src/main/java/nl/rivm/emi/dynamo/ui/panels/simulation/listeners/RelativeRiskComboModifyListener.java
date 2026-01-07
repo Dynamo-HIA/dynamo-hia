@@ -300,6 +300,7 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 						+ " selectionindex: " + selectionIndex);
 				if (comboLabel != null) {
 					String newText = myCombo.getText();
+					@SuppressWarnings("unused")
 					Composite parent = myCombo.getParent();
 					log.debug("newText: " + newText);
 					try {
@@ -430,6 +431,7 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 		box.open();
 	}
 
+	@SuppressWarnings("unused")
 	private void handleErrorMessage(Exception e,
 			RelativeRiskDropDownPanel registeredDropDown) {
 		this.log.debug(e);

@@ -59,16 +59,17 @@ public class CategoricalValueParameterDataPanel extends Composite {
 				TypedHashMap<?> cHMap = (TypedHashMap<?>) tHMap.get(classCount);
 				final Label label = new Label(this, SWT.NONE);
 				if (classCount == 1) {
-					label.setText(new Integer(count).toString());
+					label.setText(Integer.valueOf(count).toString());
 				}
 				final Label classLabel = new Label(this, SWT.NONE);
-				classLabel.setText(new Integer(classCount).toString());
+				classLabel.setText(Integer.valueOf(classCount).toString());
 				bindValue(cHMap, BiGender.FEMALE_INDEX);
 				bindValue(cHMap, BiGender.MALE_INDEX);
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void bindValue(TypedHashMap<?> typedHashMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -81,9 +82,11 @@ public class CategoricalValueParameterDataPanel extends Composite {
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		//ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) typedHashMap
 				.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

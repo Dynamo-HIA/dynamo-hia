@@ -7,6 +7,7 @@ public class ContinuousRiskFactorProperties extends RiskFactorProperties{
 	private Float[] cutoffValues;
 	private Float referenceValue;
 
+	@SuppressWarnings("unused")
 	private ContinuousRiskFactorProperties() {
 		super();
 	}

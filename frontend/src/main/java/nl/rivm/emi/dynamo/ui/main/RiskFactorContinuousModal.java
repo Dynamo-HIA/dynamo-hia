@@ -101,6 +101,7 @@ public class RiskFactorContinuousModal extends AbstractMultiRootChildDataModal {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected LinkedHashMap<String, Object> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {

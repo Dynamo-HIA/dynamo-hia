@@ -163,7 +163,9 @@ public class TabRelativeRiskConfigurationsProxy extends
 	public String report() {
 		StringBuffer reportBuffer = new StringBuffer(
 				"Content of the current RelativeRisk configurations: \n");
+		@SuppressWarnings("rawtypes")
 		Map map = this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<Integer> keys = map.keySet();
 		for (Integer key : keys) {
 			TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map

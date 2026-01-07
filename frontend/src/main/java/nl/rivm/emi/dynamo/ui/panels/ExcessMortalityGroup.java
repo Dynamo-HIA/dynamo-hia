@@ -38,6 +38,7 @@ public class ExcessMortalityGroup {
 		entityNameGroup.handlePlacementInContainer();
 		// Set the selected item from the stored values in the xml
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.UNITTYPE.getElementName());
+		@SuppressWarnings("rawtypes")
 		WritableValue writableValue = (WritableValue) tuple.getValue();
 		UnitTypeDropDownPanel dropDownGroup = new UnitTypeDropDownPanel(theGroup, writableValue);
 		dropDownGroup.setHelpGroup(helpGroup);

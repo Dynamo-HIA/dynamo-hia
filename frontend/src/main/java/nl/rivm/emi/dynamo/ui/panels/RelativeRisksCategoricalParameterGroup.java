@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Group;
 public class RelativeRisksCategoricalParameterGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelativeRisksCategoricalParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {

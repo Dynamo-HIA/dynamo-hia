@@ -10,7 +10,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -240,6 +239,7 @@ public class GenericDropDownPanel {
 	
 	public void disableWarningColor() {
 		int index = this.dropDown.getSelectionIndex();
+		@SuppressWarnings("unused")
 		String contents = this.dropDown.getItem(index);
 		 Color color = this.dropDown.getDisplay().getSystemColor(
 					SWT.COLOR_BLACK);

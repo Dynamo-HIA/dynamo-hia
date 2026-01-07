@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Group;
 public class RelRisksForDeathContinuousParameterGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelRisksForDeathContinuousParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {

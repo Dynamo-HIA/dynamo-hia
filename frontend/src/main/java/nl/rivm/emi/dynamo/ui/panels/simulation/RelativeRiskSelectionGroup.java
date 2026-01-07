@@ -33,8 +33,10 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 	private RelativeRiskDropDownPanel toDropDownPanel;
 	private HelpGroup helpGroup;
 
+	@SuppressWarnings("unused")
 	private RelativeRiskComboModifyListener fromDropDownModifyListener;
 
+	@SuppressWarnings("unused")
 	private RelativeRiskComboModifyListener toDropDownModifyListener;
 
 	public RelativeRiskSelectionGroup(String tabName, Set<String> set,
@@ -65,6 +67,7 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 
 		handleLayoutData();
 
+		@SuppressWarnings("unused")
 		String chosenIndexSelection = null;
 		if (this.selections != null) {
 			for (String chosenIndex : selections) {

@@ -68,7 +68,9 @@ public class CharacteristicsConfigurationMapSingleton extends
 	 * @return the Characteristic with the passed id (null if not present).
 	 */
 	public void clear() {
+		@SuppressWarnings("rawtypes")
 		Set keySet = this.keySet();
+		@SuppressWarnings("rawtypes")
 		Iterator iterator = keySet.iterator();
 		while(iterator.hasNext()){
 			iterator.next();
@@ -80,7 +82,7 @@ public class CharacteristicsConfigurationMapSingleton extends
 		int characteristicCount = 0;
 		for(int index = 0; characteristicCount < size(); index++){
 			resultBuffer.append("Characteristic at index " + index + ":");
-			Characteristic current = get(new Integer(index));
+			Characteristic current = get(Integer.valueOf(index));
 if(current == null){
 	resultBuffer.append("None\n");
 } else {

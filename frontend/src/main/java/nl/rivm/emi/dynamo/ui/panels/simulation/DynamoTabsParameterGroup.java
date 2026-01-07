@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Group;
  */
 public class DynamoTabsParameterGroup {
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public Composite group;
@@ -37,6 +38,7 @@ public class DynamoTabsParameterGroup {
 		group.setLayout(fillLayout);
 		//group.setBackground(new Color(null, 0xbb, 0xbb,0xbb)); //gray
 		
+		@SuppressWarnings("unused")
 		DynamoTabsDataPanel dynamoTabsDataPanel = new DynamoTabsDataPanel(group,
 				selectedNode, dynamoSimulationObject, dataBindingContext,
 				helpGroup);		

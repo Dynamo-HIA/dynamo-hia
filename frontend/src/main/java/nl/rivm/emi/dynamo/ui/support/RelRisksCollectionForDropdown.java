@@ -381,6 +381,7 @@ public class RelRisksCollectionForDropdown {
 	 * @param singleConfiguration
 	 */
 
+	@SuppressWarnings({ "unused", "unlikely-arg-type" })
 	private void removeRRAlreadyPresent(
 			DynamoSimulationObject dynamoSimulationObject) {
 		synchronized (this) {
@@ -492,6 +493,7 @@ public class RelRisksCollectionForDropdown {
 	 * @param singleConfiguration
 	 */
 
+	@SuppressWarnings("unlikely-arg-type")
 	private void removeRRSelectedInOtherTabs(
 			Map<Integer, TabRelativeRiskConfigurationData> selectedRelRisks,
 			Set<String> diseaseNames,
@@ -532,6 +534,7 @@ public class RelRisksCollectionForDropdown {
 						Iterator<String> aKeyIterator = aRR4DDKeySet.iterator();
 						while (aKeyIterator.hasNext()) {
 							String currentFromInWorkingMap = aKeyIterator.next();
+							@SuppressWarnings("unused")
 							HashMap<String, Set<String>> resultRR4CMap = new HashMap<String, Set<String>>();
 							HashMap<String, Set<String>> currentRRFromChoice = workingMap
 									.get(currentFromInWorkingMap);
@@ -766,6 +769,7 @@ public class RelRisksCollectionForDropdown {
 
 	public String getFirstRRFileList() {
 		synchronized (this) {
+			@SuppressWarnings("unused")
 			Set<String> fileNames = new LinkedHashSet<String>();
 			String returnName = null;
 			Iterator<String> fromIterator = this
@@ -848,6 +852,7 @@ public class RelRisksCollectionForDropdown {
 					.getAvaillableRelRisksForDropdown().keySet().iterator();
 			while (fromIterator.hasNext()) {
 				String fromKey = fromIterator.next();
+				@SuppressWarnings("unused")
 				HashMap<String, Set<String>> toList = this
 						.getAvaillableRelRisksForDropdown().get(fromKey);
 

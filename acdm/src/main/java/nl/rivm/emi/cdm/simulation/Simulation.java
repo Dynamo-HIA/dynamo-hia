@@ -450,6 +450,8 @@ public class Simulation extends DomLevelTraverser {
 					if (charValBase instanceof CompoundCharacteristicValue) {
 						CompoundCharacteristicValue charVal = (CompoundCharacteristicValue) charValBase;
 						
+						
+						
 						/* now the big trick for DALY calculation: here we need to change the exposure 
 						 * only during the first step (year) of update but later years of exposure should not
 						 * be influenced by this. 
@@ -499,56 +501,7 @@ public class Simulation extends DomLevelTraverser {
 						 * 
 						 *  TODO
 						 *  */
-						
-						/* now the big trick for DALY calculation: here we need to change the exposure 
-						 * only during the first step (year) of update but later years of exposure should not
-						 * be influenced by this. 
-						 * Therefore we give the reference (unchanged) exposure to the population, update the
-						 * risk factor status using the reference exposure (giving the right exposure for the
-						 * second year) and then replace the exposure in the first year (=step 0) with 
-						 * the changed exposure. This should happen before the healthstatus is updated, as
-						 * the health status update in the first year is determined by the changed exposure
-						 * The changed exposure is stored in the label of the individual,as element [4]
-						 * 
-						 *  For duration, the value is always 0 after change, either because the change just happed, or because they are
-						 *  in another category. Those staying in the duration category are not in the one for all scenario.
-						 *  and all for one is the only way to obtain dalys (with different transitions no dalys are calculated)
-						 */
-						if (DALYSCEN && charVal.getNumberFilled()==1){
-							 String label=individual.getLabel();
-							
-							 log.debug(" in breakarea ");
-							 /* split at the place of the  underscore 			 */
-							 /* elements are: "ind", indno, currentriskfactor, duration or to (optional), new Value of DALY */
-							 String delims="_";
-							 String[] tokens = label.split(delims);
-							 
-							
-							CharacteristicValueBase riskVal=individual.get(3);
-							if (riskVal instanceof FloatCharacteristicValue){
-								FloatCharacteristicValue riskValue = (FloatCharacteristicValue) riskVal;
-								riskValue.setFirstValue(Float.parseFloat(tokens[4]));
-							}
-							if (riskVal instanceof IntCharacteristicValue){
-								IntCharacteristicValue riskValue = (IntCharacteristicValue) riskVal;
-								riskValue.setFirstValue(Integer.parseInt(tokens[4]));
-							}
-							/* if with duration  */
-							if (charVal.getIndex()==5)  {
-								FloatCharacteristicValue duurVal=(FloatCharacteristicValue) individual.get(4);
-								duurVal.setFirstValue(0F);}
-													  
-						}
-						/* if DALY: riskfactorCharVal=individual[3]
-						 * replaceCharVal(riskfactorCharVal, individual)
-						 * if (charVal.getIndex()==5) {;
-						 * durationCharVal=individual[4]
-						 * replaceCharVal(riskfactorCharVal, individual)}
-						 * NB checken of inderdaad nummer 5 ,4 en 3
-						 * 
-						 *  TODO
-						 *  */
-
+									
 						if (!handleCompoundCharVal(charVal, individual)) {
 							charValIterator.remove();
 						}
@@ -1038,6 +991,7 @@ public class Simulation extends DomLevelTraverser {
 		DALYSCEN = value;
 
 	}
+
 
 	/* added by hendriek */
 	/* get Newborns returns a deepcopy of newBorns */

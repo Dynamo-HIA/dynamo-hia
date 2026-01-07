@@ -68,10 +68,11 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
+			label.setText(Integer.valueOf(count).toString());
 			for (int sexCount = 0; sexCount < 2; sexCount++) {
 				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap
 						.get(sexCount);
+				@SuppressWarnings("rawtypes")
 				WritableValue thePercentageObservable = (WritableValue) list
 						.get(0).getValue();
 				bindValue(thePercentageObservable);
@@ -90,7 +91,8 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(WritableValue thePercentage) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue thePercentage) {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
@@ -102,6 +104,7 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		dataBindingContext.bindValue(textObservableValue, thePercentage,

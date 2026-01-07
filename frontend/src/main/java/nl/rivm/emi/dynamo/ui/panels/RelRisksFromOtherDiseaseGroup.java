@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RelRisksFromOtherDiseaseGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelRisksFromOtherDiseaseGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {

@@ -25,6 +25,7 @@ import org.junit.Test;
 public class testTotal {
 Log log = LogFactory.getLog(getClass().getName());
 	
+	@SuppressWarnings("static-access")
 	String baseDir = BaseDirectory.getInstance(
 			"C:\\dynamo\\eclipse_workspaces\\dynamo\\DynamoDataSet").getBaseDir();
 

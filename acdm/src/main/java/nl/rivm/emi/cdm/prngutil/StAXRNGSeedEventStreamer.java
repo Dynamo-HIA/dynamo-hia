@@ -7,8 +7,6 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.StAXIndividualEventStreamer;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

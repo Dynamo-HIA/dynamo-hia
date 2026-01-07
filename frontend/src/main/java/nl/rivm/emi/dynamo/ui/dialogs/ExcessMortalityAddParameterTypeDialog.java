@@ -5,12 +5,7 @@ import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.IconAndMessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -20,7 +15,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 
 /**
@@ -59,7 +53,8 @@ public class ExcessMortalityAddParameterTypeDialog extends Dialog {
 		super(parentShell);
 		this.title = dialogTitle;
 		this.message = dialogMessage;
-		this.bulletButtonNamesEnums = bulletButtonNamesEnums;
+		// removed in 2025 as this seems strange
+	//	this.bulletButtonNamesEnums = bulletButtonNamesEnums;
 		// this.radioButtons = new Button[bulletButtonNamesEnums.length];
 	}
 

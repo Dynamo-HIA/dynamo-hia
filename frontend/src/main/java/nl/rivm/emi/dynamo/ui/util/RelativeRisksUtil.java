@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -46,7 +45,7 @@ public class RelativeRisksUtil {
 					NodeList nodeList = doc
 							.getElementsByTagName(XMLTagEntityEnum.TRANSITIONDESTINATION
 									.getElementName());
-					Integer previousToIndex = new Integer(-1);
+					Integer previousToIndex = Integer.valueOf(-1);
 					for (int index = 0; index < nodeList.getLength(); index++) {
 						Node toNode = nodeList.item(index);
 						Integer toIndex = Integer.valueOf(toNode
@@ -102,7 +101,7 @@ public class RelativeRisksUtil {
 					NodeList nodeList = doc
 							.getElementsByTagName(XMLTagEntityEnum.CAT
 									.getElementName());
-					Integer previousFromIndex = new Integer(-1);
+					Integer previousFromIndex =Integer.valueOf(-1);
 					for (int index = 0; index < nodeList.getLength(); index++) {
 						Node fromNode = nodeList.item(index);
 						Integer fromIndex = Integer.valueOf(fromNode

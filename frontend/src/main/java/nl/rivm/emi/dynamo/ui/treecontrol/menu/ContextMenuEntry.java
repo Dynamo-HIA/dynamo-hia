@@ -4,6 +4,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
 
 public class ContextMenuEntry {
+	@SuppressWarnings("unused")
 	private Shell myShell;
 	private String myMenuText = "Not initialized";
 	private Action myAction;

@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TabFolder;
  */
 public class ScenarioTab extends NestedTab {
 	
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog("ScenarioTab");
 	
 	private ScenarioSelectionGroup scenarioSelectionGroup;

@@ -52,6 +52,7 @@ public class NestedTabSelectionListener implements SelectionListener {
 					DynamoSimulationObject dynSimObj = myTabPlatform
 							.getDynamoSimulationObject();
 					int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
+					@SuppressWarnings("unused")
 					TabRelativeRiskConfigurationData configuration = dynSimObj
 							.getRelativeRiskConfigurations().get(tabIndex);
 					/*

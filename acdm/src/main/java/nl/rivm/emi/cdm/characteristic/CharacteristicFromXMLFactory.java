@@ -177,6 +177,7 @@ public class CharacteristicFromXMLFactory {
 			}
 			CharacteristicTypesContainer container = CharacteristicTypesContainer
 					.getInstance();
+			@SuppressWarnings("rawtypes")
 			Class typeClass = container.get(typeLabel);
 			if (typeClass == null) {
 				throw new ConfigurationException(String.format(
@@ -203,8 +204,9 @@ public class CharacteristicFromXMLFactory {
 	 *             When the supplied <Code>Class</code> cannot be
 	 *             instantiated.
 	 */
+	@SuppressWarnings("deprecation")
 	private static AbstractCharacteristicType instantiateTypeClass(
-			Class typeClass) throws ConfigurationException {
+			@SuppressWarnings("rawtypes") Class typeClass) throws ConfigurationException {
 		AbstractCharacteristicType type;
 		try {
 			type = (AbstractCharacteristicType) typeClass.newInstance();
@@ -238,11 +240,13 @@ public class CharacteristicFromXMLFactory {
 			HierarchicalConfiguration characteristicConfiguration,
 			AbstractCategoricalCharacteristicType catType)
 			throws ConfigurationException {
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
 				.configurationsAt(possibleValuesLabel);
 		if (possibleValuesConfigurations.size() == 1) {
 			SubnodeConfiguration possibleValuesConfiguration = possibleValuesConfigurations
 					.get(0);
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> valueConfigurations = possibleValuesConfiguration
 					.configurationsAt(valueLabel);
 			if (valueConfigurations.size() > 0) {
@@ -281,10 +285,12 @@ public class CharacteristicFromXMLFactory {
 	 *             When the supplied configuration does not conform to the
 	 *             expected configuration structure.
 	 */
+	@SuppressWarnings("unchecked")
 	public static void fillLimits(
 			HierarchicalConfiguration characteristicConfiguration,
 			AbstractContinuousCharacteristicType catType)
 			throws ConfigurationException {
+		
 		List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
 				.configurationsAt(limitsLabel);
 		if (possibleValuesConfigurations.size() == 1) {

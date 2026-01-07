@@ -10,7 +10,6 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.main.RelativeRisksDiseaseOnDiseaseModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
@@ -46,6 +45,7 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 
 	// AtomicTypeBase myType = new Unit();
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public RelativeRisksMatrixParameterPanel(Composite parent, Text topNeighbour,
 			TypedHashMap<TransitionSource> transitionFromClassToClassObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -63,7 +63,7 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 		Label[] topLabels = new Label[numberOfCategories];
 		for (int count = 1; count <= numberOfCategories; count++) {
 			topLabels[count - 1] = new Label(this, SWT.NONE);
-			topLabels[count - 1].setText(new Integer(count).toString());
+			topLabels[count - 1].setText(Integer.valueOf(count).toString());
 		}
 		Label toLabel = new Label(this, SWT.NONE);
 		toLabel.setText("From");
@@ -74,7 +74,7 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 		}
 		for (int sourceCount = 1; sourceCount <= numberOfCategories; sourceCount++) {
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(sourceCount).toString());
+			label.setText(Integer.valueOf(sourceCount).toString());
 			TypedHashMap<TransitionDestination> destinationMap = (TypedHashMap<TransitionDestination>) transitionFromClassToClassObject
 					.get(sourceCount);
 			int numberOfDestinations = destinationMap.size();
@@ -90,7 +90,7 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 					/**
 					 * Set the diagonal to 100 on the diagonal.
 					 */
-					observableValue.doSetValue(new Float(100F));
+					observableValue.doSetValue(Float.valueOf(100F));
 				} else {
 					observableValue = (WritableValue) parameterList.get(0)
 							.getValue();
@@ -110,7 +110,8 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 		 */
 	}
 
-	private void bindValue(WritableValue observableClassName,
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
 		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
 		text.setText("Bla"); // theType.convert4View(observableClassName.doGetValue()));
@@ -137,9 +138,11 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
@@ -149,6 +152,7 @@ public class RelativeRisksMatrixParameterPanel extends Composite /*
 				.getTheModal()));
 	}
 
+	@SuppressWarnings("unused")
 	private Text createAndPlaceTextField() {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();

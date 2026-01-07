@@ -1,26 +1,16 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
 import java.io.File;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.global.ChildNode;
-import nl.rivm.emi.dynamo.global.DirectoryNode;
 import nl.rivm.emi.dynamo.global.FileNode;
 import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.dialogs.ExcessMortalityTrialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
-import nl.rivm.emi.dynamo.ui.dialogs.TransitionTrialog;
-import nl.rivm.emi.dynamo.ui.main.DataLessMessageModal;
 import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
-import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 

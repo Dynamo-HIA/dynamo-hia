@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 public class DeleteDirectoryAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private MessageStrings messageStrings;
+	@SuppressWarnings("unused")
 	private int searchDepth;
 
 	public DeleteDirectoryAction(Shell shell, TreeViewer v, BaseNode node,
@@ -36,6 +37,7 @@ public class DeleteDirectoryAction extends ActionBase {
 	@Override
 	public void run() {
 		try {
+			@SuppressWarnings("unused")
 			String filePath = "";
 			// Delete directories only.
 			if (node instanceof DirectoryNode) {
@@ -50,6 +52,7 @@ public class DeleteDirectoryAction extends ActionBase {
 						+ node.deriveNodeLabel()
 						+ messageStrings.getMessagePart2());
 				int returnCode = messageBox.open();
+				@SuppressWarnings("unused")
 				boolean error = false;
 				switch (returnCode) {
 				case SWT.YES:
@@ -102,6 +105,7 @@ public class DeleteDirectoryAction extends ActionBase {
 						SWT.ERROR_UNSPECIFIED | SWT.OK);
 				messageBox
 						.setText("This action is intended for use on a directory Node.");
+				@SuppressWarnings("unused")
 				int returnCode = messageBox.open();
 			}
 			return;
@@ -110,10 +114,12 @@ public class DeleteDirectoryAction extends ActionBase {
 					SWT.ERROR_ITEM_NOT_REMOVED | SWT.OK);
 			messageBox.setText("Removing risk-factor.");
 			messageBox.setMessage("Unexpected nodes were found.");
+			@SuppressWarnings("unused")
 			int returnCode = messageBox.open();
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void deleteNode(File savedFile) {
 		MessageBox messageBox;
 		if (savedFile.delete()) {
@@ -126,6 +132,7 @@ public class DeleteDirectoryAction extends ActionBase {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean recursiveDeleteOfDirectoryNodes(DirectoryNode directoryNode)
 			throws TreeStructureException {
 		MessageBox messageBox;
@@ -162,6 +169,7 @@ public class DeleteDirectoryAction extends ActionBase {
 		return error;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean recursiveDeleteOfAllChildren(DirectoryNode directoryNode)
 			throws TreeStructureException {
 		MessageBox messageBox;
@@ -284,6 +292,7 @@ public class DeleteDirectoryAction extends ActionBase {
 	}
 
 	private boolean removeNodeFromParent(DirectoryNode directoryNode) {
+		@SuppressWarnings("unused")
 		MessageBox messageBox;
 		boolean error = false;
 		if (directoryNode instanceof ChildNode) {
@@ -296,6 +305,7 @@ public class DeleteDirectoryAction extends ActionBase {
 		return error;
 	}
 
+	@SuppressWarnings("unused")
 	private static class nodeSelection implements ISelection {
 
 		@Override

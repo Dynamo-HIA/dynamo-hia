@@ -106,9 +106,11 @@ public class Output_UI {
 				this.plotFactory);
 		log.debug("tab survival made");
 		final Output_LifeExpTab tab3 = new Output_LifeExpTab(tabFolder1, this.plotFactory);
+		@SuppressWarnings("unused")
 		final Output_WriteOutputTab tab5 = new Output_WriteOutputTab(
 				outputShell, currentPath, tabFolder1, this.output, scenarioParameters);
 		log.debug("tab writing made");
+		@SuppressWarnings("unused")
 		final Output_ChangeScenarioTab tab6 = new Output_ChangeScenarioTab(
 				tabFolder1, this.output,this.scenarioParameters);
 		log.debug("tab scenarioparams made");

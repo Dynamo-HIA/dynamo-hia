@@ -10,13 +10,15 @@ public class PopulationFileNameComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue populationFileNameWritableValue;
 
-	public PopulationFileNameComboModifyListener(WritableValue populationFileNameWritableValue) {
+	public PopulationFileNameComboModifyListener(@SuppressWarnings("rawtypes") WritableValue populationFileNameWritableValue) {
 		super();
 		this.populationFileNameWritableValue = populationFileNameWritableValue;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();

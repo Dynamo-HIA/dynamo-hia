@@ -40,6 +40,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 
 	// AtomicTypeBase myType = new Unit();
 
+	@SuppressWarnings("unchecked")
 	public RiskFactorContinuousPrevalencesDataPanel(Composite parent,
 			Text topNeighbour,
 			IContinuousPrevalencesObject continuousPrevalencesObject,
@@ -68,6 +69,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 						.get(sexCount);
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
 					AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+					@SuppressWarnings("rawtypes")
 					WritableValue observableClassName = (WritableValue) tuple
 							.getValue();
 					XMLTagEntity theType = tuple.getType();
@@ -133,14 +135,17 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 		spaceLabel5.setLayoutData(dataGridData);
 	}
 
-	private void bindValue(WritableValue observableClassName,
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
 		Text text = createAndPlaceTextField();
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType

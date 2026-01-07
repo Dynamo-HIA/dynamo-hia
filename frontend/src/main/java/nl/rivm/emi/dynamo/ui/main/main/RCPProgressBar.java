@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
@@ -117,6 +116,7 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 		Device device = Display.getCurrent();
 		// dit zijn de kleuren van de website
 		Color zalm = new Color(device, 255, 229, 203);
+		@SuppressWarnings("unused")
 		Color orange = new Color(device, 255, 197, 141);
 		// Color blue = new Color (device, 0, 42, 118);
 		Color blue = new Color(device, 46, 133, 255);
@@ -214,6 +214,7 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 		Device device = Display.getCurrent();
 		// dit zijn de kleuren van de website
 		Color zalm = new Color(device, 255, 229, 203);
+		@SuppressWarnings("unused")
 		Color orange = new Color(device, 255, 197, 141);
 		// Color blue = new Color (device, 0, 42, 118);
 		Color blue = new Color(device, 46, 133, 255);

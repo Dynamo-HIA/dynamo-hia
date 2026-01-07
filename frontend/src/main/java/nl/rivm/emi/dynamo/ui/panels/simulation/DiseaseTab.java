@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.TabFolder;
  */
 public class DiseaseTab extends NestedTab {
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog("DiseaseTab");
 	private DiseaseSelectionGroup diseaseSelectionGroup;
 	private DynamoTabDataManager dynamoTabDataManager;
@@ -69,6 +70,7 @@ public class DiseaseTab extends NestedTab {
 					);
 		
 		
+			@SuppressWarnings("unused")
 			DiseaseResultGroup diseaseResultGroup =
 				new DiseaseResultGroup(this.selections, this.plotComposite,					
 						selectedNode, helpGroup,

@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 
 import nl.rivm.emi.dynamo.global.BaseNode;
@@ -10,14 +9,12 @@ import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
-import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -89,6 +86,7 @@ public class ResultsObjFileAction extends ActionBase {
 			new Output_UI(shell, output, scenParms, savedFileDirectoryPath);
 		}
 
+		@SuppressWarnings("resource")
 		private ScenarioParameters deserializeScenarioParameters(
 				String savedFileDirectoryPath) {
 			ObjectInputStream in;
@@ -130,6 +128,7 @@ public class ResultsObjFileAction extends ActionBase {
 			return scenarioInfoObject;
 		}
 
+		@SuppressWarnings("resource")
 		private DynamoOutputFactory deserializeOutputObject(
 				String savedFileDirectoryPath) {
 			ObjectInputStream in;

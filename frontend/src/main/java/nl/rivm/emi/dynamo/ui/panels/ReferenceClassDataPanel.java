@@ -49,6 +49,7 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Reference class index:");
 		indexLabel.setLayoutData(gridData);
+		@SuppressWarnings("rawtypes")
 		WritableValue observableObject=null;
 		try {
 			observableObject = riskFactorConfigurationObject
@@ -93,7 +94,7 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 	// return text;
 	// }
 
-	private void createAndHookupDropDown(WritableValue writableValue,
+	private void createAndHookupDropDown(@SuppressWarnings("rawtypes") WritableValue writableValue,
 			ICategoricalObject riskFactorConfig) {
 		int numberOfClasses = riskFactorConfig.getNumberOfCategories();
 		dropDown = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -102,9 +103,9 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		dropDown.setLayoutData(dropDownGridData);
 		DropDownPropertiesSet selectableReferenceClassIndexPropertiesSet = new DropDownPropertiesSet();
 		for (int count = 1; count <= numberOfClasses; count++) {
-			selectableReferenceClassIndexPropertiesSet.add((new Integer(count)
+			selectableReferenceClassIndexPropertiesSet.add((Integer.valueOf(count)
 					.toString()));
-			dropDown.add((new Integer(count)).toString(), count - 1);
+			dropDown.add((Integer.valueOf(count)).toString(), count - 1);
 		}
 		int initialIndex = 0;
 		if (writableValue != null) {

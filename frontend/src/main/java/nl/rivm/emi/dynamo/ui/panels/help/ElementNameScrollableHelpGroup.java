@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.help;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 
 /**
  * First actual helptekst panel.
@@ -10,10 +11,6 @@ import java.io.BufferedReader;
 /* hendriek changed the group into browser, permitting html formatting of the text */
 /* the finding of the default help text (not hovering) seems different now, should be looked at 
  * not a showstopper */
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -23,12 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-
 public class ElementNameScrollableHelpGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	final Composite parent;
@@ -38,6 +31,7 @@ public class ElementNameScrollableHelpGroup {
 	Point preferredSize = null;
 	String borderText;
 	int count = 0;
+	@SuppressWarnings("unused")
 	private String helpDirectoryPath;
 	private String helpKey = "Init";
 
@@ -69,8 +63,9 @@ public class ElementNameScrollableHelpGroup {
 				if (in == null) {
 					helpContent = "Can't read helpfile for: " + helpKey;
 				} else {
-					helpContent = new BufferedReader(new InputStreamReader(in))
-						   .lines().collect(Collectors.joining("\n"));
+					BufferedReader helpReader =	new BufferedReader(new InputStreamReader(in));
+					helpContent = helpReader.lines().collect(Collectors.joining("\n"));
+					helpReader.close();
 				}
 				
 				//helpContent = "some help here";
@@ -104,6 +99,10 @@ public class ElementNameScrollableHelpGroup {
 //		} catch (IOException e) {
 //			helpContent = "Exception! Helpfile for: \"" + helpKey
 //					+ "\" threw an IOException.";
+		} catch (IOException e) {
+			helpContent = "Exception! Helpfile for: \"" + this.helpKey
+					+ "\" threw an IOException, namely." + e;
+			e.printStackTrace();
 		} finally {
 			synchronized (theGroup) {
 				if (!theGroup.isDisposed()) {
@@ -116,6 +115,7 @@ public class ElementNameScrollableHelpGroup {
 				//	label.update();		
 				theGroup.setText(helpContent);	
 				theGroup.update();
+				
 				}
 			}
 		}

@@ -62,13 +62,16 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		// Second line
+		@SuppressWarnings("unused")
 		Label filler1Label = new Label(this, SWT.NONE);
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		@SuppressWarnings("unused")
 		Label filler2Label = new Label(this, SWT.NONE);
 		// Label filler3Label = new Label(this, SWT.NONE);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		@SuppressWarnings("unused")
 		Label filler4Label = new Label(this, SWT.NONE);
 		// Label filler5Label = new Label(this, SWT.NONE);
 		// Second line
@@ -106,7 +109,7 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		int numberOfAges = ageMap.size();
 		for (int AgeCount = 0; AgeCount < numberOfAges; AgeCount++) {
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(AgeCount).toString());
+			label.setText(Integer.valueOf(AgeCount).toString());
 			TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) ageMap.get(AgeCount);
 			int numberOfSexes = sexMap.size();
 			for (int sexCount = 0; sexCount < numberOfSexes; sexCount++) {
@@ -115,6 +118,7 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
 					if (!((acutelyFaltalChosen && (paramCount == 2)) || (!acutelyFaltalChosen && (paramCount == 1)))) {
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						@SuppressWarnings("rawtypes")
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
 						XMLTagEntity theType = tuple.getType();
@@ -133,7 +137,8 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		}
 	}
 
-	private void bindValue(WritableValue observableClassName,
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
 		Text text = createAndPlaceTextField();
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
@@ -144,8 +149,10 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
