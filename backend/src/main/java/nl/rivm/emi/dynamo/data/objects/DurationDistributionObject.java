@@ -51,6 +51,7 @@ public class DurationDistributionObject extends TypedHashMap<Age> implements Sta
 					while (catIterator.hasNext()) {
 						Object cat = catIterator.next();
 						Object valueObject = catMap.get(cat);
+						@SuppressWarnings("rawtypes")
 						WritableValue writableValue = null;
 						if (valueObject instanceof LeafNodeList) {
 							LeafNodeList value = (LeafNodeList) valueObject;

@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 

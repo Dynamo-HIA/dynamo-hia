@@ -52,7 +52,7 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 			throws ConfigurationException {
 		try {
 		
-		
+			@SuppressWarnings("unused")
 			boolean success = false;
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);

@@ -40,7 +40,7 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 
 	@SuppressWarnings("rawtypes")
 	public ThreeValuesPerClassParameterDataPanel(Composite parent,
-			Text topNeighbour,TypedHashMap lotsOfData,
+			Text topNeighbour, @SuppressWarnings("rawtypes") TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup,
 			int durationClassIndex) {
 		super(parent, SWT.NONE);

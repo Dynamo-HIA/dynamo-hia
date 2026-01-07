@@ -13,7 +13,7 @@ dependencies {
     implementation("commons-configuration:commons-configuration:1.5")
     implementation("commons-collections:commons-collections:3.2.2")
     implementation("commons-lang:commons-lang:2.6")
-    implementation("org.apache.logging.log4j:log4j-core:2.24.3")
+    implementation("org.apache.logging.log4j:log4j-core:2.25.3")
     implementation("gov.nist.math.jama:gov.nist.math.jama:1.1.1")
 }
 

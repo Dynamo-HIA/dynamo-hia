@@ -120,12 +120,15 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 				.getTheModal()));
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void bindTestValue(TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+		
+		@SuppressWarnings({"rawtypes", "rawtypes"})
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

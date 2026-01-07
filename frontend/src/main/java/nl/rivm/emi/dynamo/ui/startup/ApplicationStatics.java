@@ -23,4 +23,5 @@ public class ApplicationStatics {
 /* volgende is poging om my documents/dynamo-hia als default te zetten maar werkt niet
 	public static final String DEFAULTWORKDATADIRECTORY = new JFileChooser().getFileSystemView().getDefaultDirectory()+File.separator+"DYNAMO-HIA"
     +File.separator+"Country_data"; */
+
 }

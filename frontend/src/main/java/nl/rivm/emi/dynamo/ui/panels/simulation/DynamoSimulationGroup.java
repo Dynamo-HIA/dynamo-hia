@@ -49,7 +49,7 @@ public class DynamoSimulationGroup {
 		RunButtonPanel runButtonGroup = 
 			new RunButtonPanel(this.theGroup, simulationModal);
 		// put back from 450 to 550 in 2025
-		parameterGroup.putFirstInContainer(520, runButtonGroup.group);  // 20090709 Original 550.
+		parameterGroup.putFirstInContainer(450, runButtonGroup.group);  // 20090709 Original 550.
 		runButtonGroup.putLastInContainer(parameterGroup.group);
 		simulationModal.setRunButtonPanel(runButtonGroup);
 	}
