@@ -4,7 +4,7 @@ package nl.rivm.emi.dynamo.ui.startup;
 public class ApplicationStatics {
 	public static final String APPBASENAME = "DYNAMO-HIA";
 
-	public static final String RELEASE_TAG = "Version 3.0.1, Release date: 20251103";
+	public static final String RELEASE_TAG = "Version 3.0 beta 2, Release date: 20251231";
 	/*
 	 * 
 	 * NB the following statement is not platform independent, so needs changing in case of linux versions
