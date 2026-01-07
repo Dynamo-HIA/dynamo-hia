@@ -26,4 +26,6 @@ jobs:
           gradle-version: current
 
       - name: Generate and submit dependency graph
+      # next line added by hendriek to prevent problems with merging from fork.
+        if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name || github.event.pull_request.head.repo.full_name == 'Hendriek/dynamo-hia' }}
         uses: gradle/actions/dependency-submission@v5
