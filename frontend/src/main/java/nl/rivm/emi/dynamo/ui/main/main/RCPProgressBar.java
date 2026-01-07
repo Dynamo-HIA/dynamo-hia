@@ -1,8 +1,6 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -18,7 +16,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
-import nl.rivm.emi.dynamo.estimation.FinishingListener;
 import nl.rivm.emi.dynamo.estimation.ProgressIndicatorInterface;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 

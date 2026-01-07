@@ -1069,12 +1069,11 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	 * @since 1.5
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addNodes(String key, @SuppressWarnings("rawtypes") Collection nodes) {
-		@SuppressWarnings("rawtypes")
+	public void addNodes(String key, Collection nodes) {	
 		Collection xmlNodes;
 		if (nodes != null && !nodes.isEmpty()) {
 			xmlNodes = new ArrayList(nodes.size());
-			for (@SuppressWarnings("rawtypes")
+			for (
 			Iterator it = nodes.iterator(); it.hasNext();) {
 				xmlNodes.add(convertToXMLNode((ConfigurationNode) it.next()));
 			}
