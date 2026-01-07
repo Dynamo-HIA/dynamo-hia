@@ -43,13 +43,13 @@ public class DynamoSimulationGroup {
 		DynamoSimulationParameterGroup parameterGroup = new DynamoSimulationParameterGroup(
 				theGroup, dynamoSimulationObject, dataBindingContext, 
 				selectedNode, helpGroup);
-//		parameterGroup.putFirstInContainer(450);  // 20090709 Original 550.
+//		parameterGroup.putFirstInContainer(520);  // 20090709 Original 550.
 		
 		// The third panel that contains the Run button
 		RunButtonPanel runButtonGroup = 
 			new RunButtonPanel(this.theGroup, simulationModal);
 		// put back from 450 to 550 in 2025
-		parameterGroup.putFirstInContainer(450, runButtonGroup.group);  // 20090709 Original 550.
+		parameterGroup.putFirstInContainer(520, runButtonGroup.group);  // 20090709 Original 550.
 		runButtonGroup.putLastInContainer(parameterGroup.group);
 		simulationModal.setRunButtonPanel(runButtonGroup);
 	}
@@ -68,3 +68,4 @@ public class DynamoSimulationGroup {
 //	}
 	
 }
+
