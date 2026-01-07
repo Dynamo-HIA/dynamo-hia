@@ -3,7 +3,6 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
-import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -13,7 +12,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 //ND: not experimental anymore
